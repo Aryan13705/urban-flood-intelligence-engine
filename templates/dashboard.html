@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Flood Intelligence Engine</title>
+  <meta name="description" content="AI-driven GIS decision support platform for urban flood prediction and ward-level readiness scoring.">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+
+  <style>
+    /* Leaflet dark tooltip */
+    .map-tooltip {
+      background: rgba(13,17,23,0.92) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      color: #e6edf3 !important;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      border-radius: 6px;
+      backdrop-filter: blur(8px);
+    }
+    .leaflet-tooltip-top.map-tooltip::before { border-top-color: rgba(255,255,255,0.1) !important; }
+    .leaflet-control-zoom a {
+      background: rgba(13,17,23,0.88) !important;
+      color: #e6edf3 !important;
+      border-color: rgba(255,255,255,0.1) !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading flood intelligence data…</div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Top Bar ──────────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="wave-icon">🌊</span>
+      Urban Flood Intelligence Engine
+    </div>
+
+    <div class="topbar-stats">
+      <div class="stat-pill total">
+        <span>Wards</span>
+        <span class="val" id="statTotal">—</span>
+      </div>
+      <div class="stat-pill high">
+        <span>🔴 High</span>
+        <span class="val" id="statHigh">—</span>
+      </div>
+      <div class="stat-pill mod">
+        <span>🟡 Moderate</span>
+        <span class="val" id="statMod">—</span>
+      </div>
+      <div class="stat-pill low">
+        <span>🟢 Low</span>
+        <span class="val" id="statLow">—</span>
+      </div>
+      <div class="stat-pill score">
+        <span>Avg Readiness</span>
+        <span class="val" id="statAvgScore">—</span>
+      </div>
+    </div>
+
+    <div class="topbar-badge">⚡ Pre-Monsoon Active</div>
+  </header>
+
+  <!-- ── Left Panel — Ward List ────────────────────────────────────── -->
+  <aside class="left-panel">
+    <div class="panel-header">
+      <span>Ward List</span>
+      <span id="wardCount" style="color:var(--accent-blue);"></span>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn all active" data-filter="all">All</button>
+      <button class="filter-btn high"       data-filter="High">High</button>
+      <button class="filter-btn mod"        data-filter="Moderate">Mod</button>
+      <button class="filter-btn low"        data-filter="Low">Low</button>
+    </div>
+
+    <div class="ward-list" id="wardList">
+      <!-- populated by dashboard.js -->
+    </div>
+  </aside>
+
+  <!-- ── Centre Panel — Map ─────────────────────────────────────────── -->
+  <main class="map-panel">
+    <div class="map-overlay-controls">
+      <button class="map-toggle-btn active" data-layer="markers">Markers</button>
+      <button class="map-toggle-btn"        data-layer="labels">Labels</button>
+    </div>
+    <div id="map"></div>
+  </main>
+
+  <!-- ── Right Panel — Charts + Detail ─────────────────────────────── -->
+  <aside class="right-panel">
+
+    <!-- Risk Doughnut -->
+    <div class="chart-section">
+      <div class="section-label">Risk Distribution</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:90px;height:90px;flex-shrink:0;">
+          <canvas id="doughnutChart"></canvas>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:11px;">
+          <div><span style="color:var(--risk-high);">⬤</span> High Risk</div>
+          <div><span style="color:var(--risk-mod);">⬤</span> Moderate Risk</div>
+          <div><span style="color:var(--risk-low);">⬤</span> Low Risk</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Readiness Bar Chart -->
+    <div class="chart-section" style="flex-shrink:0;">
+      <div class="section-label">Readiness Scores (bottom 12)</div>
+      <div style="height:160px;">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Ward Detail -->
+    <div class="ward-detail" id="wardDetail">
+      <div class="detail-empty">
+        <div class="icon">🗺</div>
+        <div>Click a ward or map marker<br>to view full details</div>
+      </div>
+    </div>
+
+    <!-- Priority Alerts -->
+    <div class="alert-section">
+      <div class="section-label" style="margin-bottom:6px;">⚠ Priority Action Wards</div>
+      <div id="alertList">
+        <!-- populated by dashboard.js -->
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Dashboard logic -->
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

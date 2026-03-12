@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_16640c216b98472e909908cfa3fe6796 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 30px; left: 30px;
+        z-index: 1000;
+        background-color: white;
+        padding: 14px 18px;
+        border-radius: 10px;
+        box-shadow: 0 3px 14px rgba(0,0,0,0.25);
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.7;
+    ">
+        <b style="font-size:14px;">🌊 Flood Risk Legend</b><br>
+        <span style="color:#d9534f;">&#9679;</span>&nbsp;<b>High</b> — Immediate action needed<br>
+        <span style="color:#f0ad4e;">&#9679;</span>&nbsp;<b>Moderate</b> — Monitor closely<br>
+        <span style="color:#2ecc71;">&#9679;</span>&nbsp;<b>Low</b> — Safe zone<br>
+        <hr style="margin:6px 0 4px;">
+        <small style="color:#888;">Click a marker for full details</small>
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        top: 10px; left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: rgba(255,255,255,0.92);
+        padding: 8px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        text-align: center;
+    ">
+        <b>🏙 Urban Flood Intelligence Engine</b>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#d9534f;">⬤ High: 10</span>&nbsp;&nbsp;
+        <span style="color:#f0ad4e;">⬤ Moderate: 0</span>&nbsp;&nbsp;
+        <span style="color:#2ecc71;">⬤ Low: 5</span>
+    </div>
+    
+    
+            <div class="folium-map" id="map_16640c216b98472e909908cfa3fe6796" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_16640c216b98472e909908cfa3fe6796 = L.map(
+                "map_16640c216b98472e909908cfa3fe6796",
+                {
+                    center: [28.639400000000002, 77.21383333333333],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_8e208b470d3eaa36629604f469217c36 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_8e208b470d3eaa36629604f469217c36.addTo(map_16640c216b98472e909908cfa3fe6796);
+        
+    
+            var feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_a628bfefc4f71eec1531acb209239fa7 = L.marker(
+                [28.6139, 77.209],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_c140af920465a8f2863b2fe416e48d80 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_690c8f799553330b003a79ed839a7488 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_3627d3595c86060404deabbb3e5e5bae = $(`<div id="html_3627d3595c86060404deabbb3e5e5bae" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Downtown Core</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>65 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>8 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>12 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_690c8f799553330b003a79ed839a7488.setContent(html_3627d3595c86060404deabbb3e5e5bae);
+            
+        
+
+        marker_a628bfefc4f71eec1531acb209239fa7.bindPopup(popup_690c8f799553330b003a79ed839a7488)
+        ;
+
+        
+    
+    
+            marker_a628bfefc4f71eec1531acb209239fa7.bindTooltip(
+                `<div>
+                     <b>Downtown Core</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a628bfefc4f71eec1531acb209239fa7.setIcon(icon_c140af920465a8f2863b2fe416e48d80);
+            
+    
+            var circle_marker_49cee13dc215d44df2a8b60891177af7 = L.circleMarker(
+                [28.6139, 77.209],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_ae02af0cbe809916d25d845807a4367b = L.marker(
+                [28.62, 77.235],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_f85ae56188ef019654d9b7606eca2614 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_53c1d7700f0af54abbe812859218fcc8 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e8fc02dc2648b4bde9cc1e38842ed459 = $(`<div id="html_e8fc02dc2648b4bde9cc1e38842ed459" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Riverside East</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>42 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>14 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>18 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_53c1d7700f0af54abbe812859218fcc8.setContent(html_e8fc02dc2648b4bde9cc1e38842ed459);
+            
+        
+
+        marker_ae02af0cbe809916d25d845807a4367b.bindPopup(popup_53c1d7700f0af54abbe812859218fcc8)
+        ;
+
+        
+    
+    
+            marker_ae02af0cbe809916d25d845807a4367b.bindTooltip(
+                `<div>
+                     <b>Riverside East</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ae02af0cbe809916d25d845807a4367b.setIcon(icon_f85ae56188ef019654d9b7606eca2614);
+            
+    
+            var circle_marker_38a77e6742c6ce45d574bcf1069f0b85 = L.circleMarker(
+                [28.62, 77.235],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_0b0eaa986703ccd8e8c73c33f8f6ac89 = L.marker(
+                [28.628, 77.15],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_e8ad6aef17d63a8cc428146a830ace04 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_be9a55558a641d32d137a033b3d77317 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_6e53f08c349c1d0e7eb403f894995a32 = $(`<div id="html_6e53f08c349c1d0e7eb403f894995a32" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Industrial West</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>55 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>22 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>10 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_be9a55558a641d32d137a033b3d77317.setContent(html_6e53f08c349c1d0e7eb403f894995a32);
+            
+        
+
+        marker_0b0eaa986703ccd8e8c73c33f8f6ac89.bindPopup(popup_be9a55558a641d32d137a033b3d77317)
+        ;
+
+        
+    
+    
+            marker_0b0eaa986703ccd8e8c73c33f8f6ac89.bindTooltip(
+                `<div>
+                     <b>Industrial West</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0b0eaa986703ccd8e8c73c33f8f6ac89.setIcon(icon_e8ad6aef17d63a8cc428146a830ace04);
+            
+    
+            var circle_marker_745c74ced1e461916c79052e8618c3d0 = L.circleMarker(
+                [28.628, 77.15],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_272790c4033f989d1e340436293449a1 = L.marker(
+                [28.64, 77.28],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_a9ad8b953e5130d1d1782f60ef04b166 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_788b3940a5835e567074de1c2fdbe8b6 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fbeae6bbdc3a372a4a8e09096d5707fc = $(`<div id="html_fbeae6bbdc3a372a4a8e09096d5707fc" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Harbor District</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>78 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>3 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>8 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_788b3940a5835e567074de1c2fdbe8b6.setContent(html_fbeae6bbdc3a372a4a8e09096d5707fc);
+            
+        
+
+        marker_272790c4033f989d1e340436293449a1.bindPopup(popup_788b3940a5835e567074de1c2fdbe8b6)
+        ;
+
+        
+    
+    
+            marker_272790c4033f989d1e340436293449a1.bindTooltip(
+                `<div>
+                     <b>Harbor District</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_272790c4033f989d1e340436293449a1.setIcon(icon_a9ad8b953e5130d1d1782f60ef04b166);
+            
+    
+            var circle_marker_95b05dac907f22fede13302257f56eeb = L.circleMarker(
+                [28.64, 77.28],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_5fc1a76f26fa31deb2404562532fb9f9 = L.marker(
+                [28.655, 77.231],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_65d250f654f00389c66a121f117efeb7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_54986756310486dedc2d6b20f8fe082a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d8d21f1d6e7aaffaaaed97b3b06298a8 = $(`<div id="html_d8d21f1d6e7aaffaaaed97b3b06298a8" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Old Town</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>33 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>30 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>15 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_54986756310486dedc2d6b20f8fe082a.setContent(html_d8d21f1d6e7aaffaaaed97b3b06298a8);
+            
+        
+
+        marker_5fc1a76f26fa31deb2404562532fb9f9.bindPopup(popup_54986756310486dedc2d6b20f8fe082a)
+        ;
+
+        
+    
+    
+            marker_5fc1a76f26fa31deb2404562532fb9f9.bindTooltip(
+                `<div>
+                     <b>Old Town</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5fc1a76f26fa31deb2404562532fb9f9.setIcon(icon_65d250f654f00389c66a121f117efeb7);
+            
+    
+            var circle_marker_3b6886531ae782e5572fd383dad79ee9 = L.circleMarker(
+                [28.655, 77.231],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_a4c8b6a65af5e421f428fce76f2d2711 = L.marker(
+                [28.635, 77.31],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_3c34b1153f2527f98f19e6983e8cc9c6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_59674f5bfee422993fb6f90e2346f5eb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_699ae4c98c46c66c929215fb5db55bcb = $(`<div id="html_699ae4c98c46c66c929215fb5db55bcb" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Port Area</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>90 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>2 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>5 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_59674f5bfee422993fb6f90e2346f5eb.setContent(html_699ae4c98c46c66c929215fb5db55bcb);
+            
+        
+
+        marker_a4c8b6a65af5e421f428fce76f2d2711.bindPopup(popup_59674f5bfee422993fb6f90e2346f5eb)
+        ;
+
+        
+    
+    
+            marker_a4c8b6a65af5e421f428fce76f2d2711.bindTooltip(
+                `<div>
+                     <b>Port Area</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a4c8b6a65af5e421f428fce76f2d2711.setIcon(icon_3c34b1153f2527f98f19e6983e8cc9c6);
+            
+    
+            var circle_marker_54da434810b25539201f7f016d0dc9b8 = L.circleMarker(
+                [28.635, 77.31],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_0a7212f9530bbc8ae3b45936627b26fa = L.marker(
+                [28.63, 77.22],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_24349d8900e499a62bb968902ba03187 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_606cd4d78487b88c907f58226882a14a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e6634f0bc127968e8163cb96731f9bea = $(`<div id="html_e6634f0bc127968e8163cb96731f9bea" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Midtown Central</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>48 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>18 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>22 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_606cd4d78487b88c907f58226882a14a.setContent(html_e6634f0bc127968e8163cb96731f9bea);
+            
+        
+
+        marker_0a7212f9530bbc8ae3b45936627b26fa.bindPopup(popup_606cd4d78487b88c907f58226882a14a)
+        ;
+
+        
+    
+    
+            marker_0a7212f9530bbc8ae3b45936627b26fa.bindTooltip(
+                `<div>
+                     <b>Midtown Central</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0a7212f9530bbc8ae3b45936627b26fa.setIcon(icon_24349d8900e499a62bb968902ba03187);
+            
+    
+            var circle_marker_916f1cfa31984f8a674b7364b22a3c2c = L.circleMarker(
+                [28.63, 77.22],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_9234704af3e600e522e64317be52e84a = L.marker(
+                [28.605, 77.29],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_0e9b7fe00ceee6cfe5cf28f2eb8316d9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b223d88e8fe2a4c9b51afc17f9ac993a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_08fcdec10b1fd893fc14a0200bc03a73 = $(`<div id="html_08fcdec10b1fd893fc14a0200bc03a73" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Wetlands Fringe</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>60 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>10 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>16 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_b223d88e8fe2a4c9b51afc17f9ac993a.setContent(html_08fcdec10b1fd893fc14a0200bc03a73);
+            
+        
+
+        marker_9234704af3e600e522e64317be52e84a.bindPopup(popup_b223d88e8fe2a4c9b51afc17f9ac993a)
+        ;
+
+        
+    
+    
+            marker_9234704af3e600e522e64317be52e84a.bindTooltip(
+                `<div>
+                     <b>Wetlands Fringe</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9234704af3e600e522e64317be52e84a.setIcon(icon_0e9b7fe00ceee6cfe5cf28f2eb8316d9);
+            
+    
+            var circle_marker_8cecc4ed8b43ee3acd923e1c657a7d4f = L.circleMarker(
+                [28.605, 77.29],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_dfe77c586e81235fc6a4038a36ffdf93 = L.marker(
+                [28.645, 77.21],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_097a6b39c469ef991611588dafc39b93 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a5e452608320285d0b74b33f455c56be = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_dd472f8d33b18bd2d72b0e62a330a8df = $(`<div id="html_dd472f8d33b18bd2d72b0e62a330a8df" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Market Square</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>38 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>35 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>20 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_a5e452608320285d0b74b33f455c56be.setContent(html_dd472f8d33b18bd2d72b0e62a330a8df);
+            
+        
+
+        marker_dfe77c586e81235fc6a4038a36ffdf93.bindPopup(popup_a5e452608320285d0b74b33f455c56be)
+        ;
+
+        
+    
+    
+            marker_dfe77c586e81235fc6a4038a36ffdf93.bindTooltip(
+                `<div>
+                     <b>Market Square</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dfe77c586e81235fc6a4038a36ffdf93.setIcon(icon_097a6b39c469ef991611588dafc39b93);
+            
+    
+            var circle_marker_af6246b98dd872a9f627793f326f2e87 = L.circleMarker(
+                [28.645, 77.21],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var marker_d61a8064144b56738284feaf617cbe81 = L.marker(
+                [28.61, 77.3],
+                {
+}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            var icon_8dade28e147d27698d88b9a8eaa63bea = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-triangle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_83ed368009946935419411bd0a0ee79a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_85c771f374bf074f7bad402019243811 = $(`<div id="html_85c771f374bf074f7bad402019243811" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Coastal Flats</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>85 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>6 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>9 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#ff4d4d;                         color:white;font-weight:bold;font-size:14px;">                 High Flood Risk             </div>         </div>         </div>`)[0];
+                popup_83ed368009946935419411bd0a0ee79a.setContent(html_85c771f374bf074f7bad402019243811);
+            
+        
+
+        marker_d61a8064144b56738284feaf617cbe81.bindPopup(popup_83ed368009946935419411bd0a0ee79a)
+        ;
+
+        
+    
+    
+            marker_d61a8064144b56738284feaf617cbe81.bindTooltip(
+                `<div>
+                     <b>Coastal Flats</b> — High Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d61a8064144b56738284feaf617cbe81.setIcon(icon_8dade28e147d27698d88b9a8eaa63bea);
+            
+    
+            var circle_marker_680a54f0d2a135e1a6ead7241dbbd593 = L.circleMarker(
+                [28.61, 77.3],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c);
+        
+    
+            feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c.addTo(map_16640c216b98472e909908cfa3fe6796);
+        
+    
+            var feature_group_84617db46330c0157582a7038978f7fa = L.featureGroup(
+                {
+}
+            );
+        
+    
+            feature_group_84617db46330c0157582a7038978f7fa.addTo(map_16640c216b98472e909908cfa3fe6796);
+        
+    
+            var feature_group_32f3c30951bda2e58767951e810b8d09 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_f4331662ec8e869ed8d48adc76840e37 = L.marker(
+                [28.7041, 77.1025],
+                {
+}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var icon_b34af6e943f5c7fe997d7872cfc0d032 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "check-circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f655dcfccd003152b676bc584ee7996d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_847266ad511e34be43f02abc4751849c = $(`<div id="html_847266ad511e34be43f02abc4751849c" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Hillside North</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>8 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>140 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>35 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#2ecc71;                         color:white;font-weight:bold;font-size:14px;">                 Low Flood Risk             </div>         </div>         </div>`)[0];
+                popup_f655dcfccd003152b676bc584ee7996d.setContent(html_847266ad511e34be43f02abc4751849c);
+            
+        
+
+        marker_f4331662ec8e869ed8d48adc76840e37.bindPopup(popup_f655dcfccd003152b676bc584ee7996d)
+        ;
+
+        
+    
+    
+            marker_f4331662ec8e869ed8d48adc76840e37.bindTooltip(
+                `<div>
+                     <b>Hillside North</b> — Low Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f4331662ec8e869ed8d48adc76840e37.setIcon(icon_b34af6e943f5c7fe997d7872cfc0d032);
+            
+    
+            var circle_marker_7b109dbad59c0ae1012435af3169a812 = L.circleMarker(
+                [28.7041, 77.1025],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var marker_b4fe29cc36891796ecd037aa27fca9c0 = L.marker(
+                [28.52, 77.2],
+                {
+}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var icon_2f0291f6a69020bb2a24f220c3b3b089 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "check-circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b47da4af5d3accf11213cf4a821be4ad = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ac3ef25453a1d1025070fe8743c9c08a = $(`<div id="html_ac3ef25453a1d1025070fe8743c9c08a" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Suburban South</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>20 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>75 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>28 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#2ecc71;                         color:white;font-weight:bold;font-size:14px;">                 Low Flood Risk             </div>         </div>         </div>`)[0];
+                popup_b47da4af5d3accf11213cf4a821be4ad.setContent(html_ac3ef25453a1d1025070fe8743c9c08a);
+            
+        
+
+        marker_b4fe29cc36891796ecd037aa27fca9c0.bindPopup(popup_b47da4af5d3accf11213cf4a821be4ad)
+        ;
+
+        
+    
+    
+            marker_b4fe29cc36891796ecd037aa27fca9c0.bindTooltip(
+                `<div>
+                     <b>Suburban South</b> — Low Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b4fe29cc36891796ecd037aa27fca9c0.setIcon(icon_2f0291f6a69020bb2a24f220c3b3b089);
+            
+    
+            var circle_marker_3ad8b777ad64b244f29292f19aa724bf = L.circleMarker(
+                [28.52, 77.2],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var marker_72e2877d4cefca0e89dfe45627a60fa2 = L.marker(
+                [28.69, 77.18],
+                {
+}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var icon_b250ac1557956b49355967aa08c385be = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "check-circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_89addd33691ca1f886e208a3908f1f60 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a56a9b49cacc811017d0ccf562ac769a = $(`<div id="html_a56a9b49cacc811017d0ccf562ac769a" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Green Valley</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>12 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>90 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>40 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#2ecc71;                         color:white;font-weight:bold;font-size:14px;">                 Low Flood Risk             </div>         </div>         </div>`)[0];
+                popup_89addd33691ca1f886e208a3908f1f60.setContent(html_a56a9b49cacc811017d0ccf562ac769a);
+            
+        
+
+        marker_72e2877d4cefca0e89dfe45627a60fa2.bindPopup(popup_89addd33691ca1f886e208a3908f1f60)
+        ;
+
+        
+    
+    
+            marker_72e2877d4cefca0e89dfe45627a60fa2.bindTooltip(
+                `<div>
+                     <b>Green Valley</b> — Low Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_72e2877d4cefca0e89dfe45627a60fa2.setIcon(icon_b250ac1557956b49355967aa08c385be);
+            
+    
+            var circle_marker_99c3b1ce29f46b2cd700942b02e23e34 = L.circleMarker(
+                [28.69, 77.18],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var marker_5c4156e78d4a9d96cbc19f9c1987ddae = L.marker(
+                [28.675, 77.16],
+                {
+}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var icon_5e931fc1b8341d94a97822a006b9c8ac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "check-circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8c35d334ff1143adfb84e8bc7903c98b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_0d2b09d191fd4bbdae22ea3eb30d8f18 = $(`<div id="html_0d2b09d191fd4bbdae22ea3eb30d8f18" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">University Zone</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>25 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>55 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>30 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#2ecc71;                         color:white;font-weight:bold;font-size:14px;">                 Low Flood Risk             </div>         </div>         </div>`)[0];
+                popup_8c35d334ff1143adfb84e8bc7903c98b.setContent(html_0d2b09d191fd4bbdae22ea3eb30d8f18);
+            
+        
+
+        marker_5c4156e78d4a9d96cbc19f9c1987ddae.bindPopup(popup_8c35d334ff1143adfb84e8bc7903c98b)
+        ;
+
+        
+    
+    
+            marker_5c4156e78d4a9d96cbc19f9c1987ddae.bindTooltip(
+                `<div>
+                     <b>University Zone</b> — Low Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5c4156e78d4a9d96cbc19f9c1987ddae.setIcon(icon_5e931fc1b8341d94a97822a006b9c8ac);
+            
+    
+            var circle_marker_5168e1d09c6f632d5149af286876626b = L.circleMarker(
+                [28.675, 77.16],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var marker_dc51c0d3e5d1f8cc77593197a3758358 = L.marker(
+                [28.72, 77.13],
+                {
+}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            var icon_87c472da34c7e665b170f0556c45e34b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "check-circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f60af734defcd09208857bd8e43b35fe = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_46ad7642b5d67c88a957dc0f7ad1d48b = $(`<div id="html_46ad7642b5d67c88a957dc0f7ad1d48b" style="width: 100.0%; height: 100.0%;">         <div style="font-family:Arial,sans-serif;min-width:200px;">             <h4 style="margin:0 0 6px;color:#333;">Uptown Heights</h4>             <hr style="margin:4px 0;">             <table style="width:100%;font-size:13px;">                 <tr><td>🌧 Rainfall</td>                     <td><b>6 mm/hr</b></td></tr>                 <tr><td>⛰ Elevation</td>                     <td><b>210 m</b></td></tr>                 <tr><td>🚰 Drainage Cap.</td>                     <td><b>50 mm/hr</b></td></tr>             </table>             <hr style="margin:4px 0;">             <div style="text-align:center;padding:4px;border-radius:4px;                         background:#2ecc71;                         color:white;font-weight:bold;font-size:14px;">                 Low Flood Risk             </div>         </div>         </div>`)[0];
+                popup_f60af734defcd09208857bd8e43b35fe.setContent(html_46ad7642b5d67c88a957dc0f7ad1d48b);
+            
+        
+
+        marker_dc51c0d3e5d1f8cc77593197a3758358.bindPopup(popup_f60af734defcd09208857bd8e43b35fe)
+        ;
+
+        
+    
+    
+            marker_dc51c0d3e5d1f8cc77593197a3758358.bindTooltip(
+                `<div>
+                     <b>Uptown Heights</b> — Low Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dc51c0d3e5d1f8cc77593197a3758358.setIcon(icon_87c472da34c7e665b170f0556c45e34b);
+            
+    
+            var circle_marker_70954992a9c23bf6519c49433b24b729 = L.circleMarker(
+                [28.72, 77.13],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.18, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_32f3c30951bda2e58767951e810b8d09);
+        
+    
+            feature_group_32f3c30951bda2e58767951e810b8d09.addTo(map_16640c216b98472e909908cfa3fe6796);
+        
+    
+            var layer_control_ccab1aa4e3e1c8d0584388ba9ead01c3_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_8e208b470d3eaa36629604f469217c36,
+                },
+                overlays :  {
+                    "High Risk" : feature_group_2482dcbb54b50cf3b2f506acdb3b0a2c,
+                    "Moderate Risk" : feature_group_84617db46330c0157582a7038978f7fa,
+                    "Low Risk" : feature_group_32f3c30951bda2e58767951e810b8d09,
+                },
+            };
+            let layer_control_ccab1aa4e3e1c8d0584388ba9ead01c3 = L.control.layers(
+                layer_control_ccab1aa4e3e1c8d0584388ba9ead01c3_layers.base_layers,
+                layer_control_ccab1aa4e3e1c8d0584388ba9ead01c3_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_16640c216b98472e909908cfa3fe6796);
+
+        
+</script>
+</html>
